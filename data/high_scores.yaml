@@ -1,0 +1,10 @@
+score:
+- !!python/tuple
+  - CUC
+  - 571450
+- !!python/tuple
+  - BIK
+  - 569350
+- !!python/tuple
+  - CUZ
+  - 139400
