@@ -1,0 +1,480 @@
+#config_version=5
+
+#CobraPin Example Config
+hardware:
+    platform: opp
+    driverboards: gen2
+    
+bcp:
+  connections:
+    local_display:
+      port: 5050
+
+mpf-mc:
+  bcp_port: 5050
+    
+#ARZACH!
+
+opp:
+  #Use the USB ports defined by your OS for the two STM32 boards
+      ports: COM13, COM14 , COM15
+  #USING SERIAL NUMBERS INSTEAD OF CHAINS
+  #  Board 0 has serial number 0, Board 1 has serial number 1.
+  #  This is convenient if your OS tends to reassign the serial port.
+  #  MPF will automatically address the correct board even if the ports
+  #     are swapped.
+
+  #For multiple CobraPin boards in a game, you will either have to give 
+  #  the STM32 boards on the second CobraPin board new serial numbers 
+  #  (10 and 11 are suggested for the 2nd board since 2 is used by the 
+  #  CobraPin Xpansion Board) 
+  #  <OR> Use the chains section to assign a port to a board number. 
+  #  Mixing these up could cause blown FETs, coils, and fuses. Proceed 
+  #  with caution. Test without coil power and use the yellow coil LEDs 
+  #  for feedback.
+  #chains:
+     #0: /dev/ttyACM0
+     #1: /dev/ttyACM1
+     
+mpf:
+     default_light_hw_update_hz: 30  # defaults to 50
+
+
+psus:
+    default:
+    #Gives the capacitors extra time to recharge after firing a coil
+    #  and eases the load on the power supply. Doesn't affect autofire
+    #  devices like flippers, pops, slings.
+        release_wait_ms: 50
+    
+    #DIRECT SWITCHES
+  #switch numbers are labelled in silkscreen on the board
+
+config:
+    - keyboard.yaml
+    - coils_config.yaml
+    - lights_config.yaml
+    - switches_config.yaml
+    - slides_config.yaml #welcome slide
+    #- mc.yaml
+
+modes:
+    - base
+    - lane_change
+    #- skillshot
+    - extra_ball
+    - castle_wall
+    - planetary_defense
+    - the_keep
+    - light_lanes
+    - arzach_awards
+    - outer_orbit
+    - inner_orbit
+    - interstellar_orbit
+    - spinner
+    - slipstream_orbit
+    - bonus
+    #- multi_ball
+    #- start_selection
+    #- carousel
+    #- the_keep_lit_3s
+
+game:
+    balls_per_game: 3
+    max_players: 4
+    add_player_switch_tag: add_player
+
+displays:
+    window:
+        width: 1366
+        height: 768
+window:
+  height: 768
+  width: 1366
+  title: Mission Pinball Framework
+  resizable: true
+  fullscreen: false
+  borderless: false
+  exit_on_escape: true
+  show_cursor: false
+  source_display: window
+        
+widget_styles:
+    text_default:
+        font_name: ancienttext
+        font_size: 50
+        adjust_top: 2
+        adjust_bottom: 3
+    space_title_huge:
+        font_name: ancienttext
+        font_size: 70
+        antialias: true
+        adjust_top: 3
+        adjust_bottom: 3
+    space_title:
+        font_name: ancienttext
+        font_size: 50
+        antialias: true
+        adjust_top: 2
+        adjust_bottom: 3
+    medium:
+        font_name: ancienttext
+        font_size: 60
+        adjust_top: 1
+        adjust_bottom: 1
+    small:
+        font_name: ancienttext
+        font_size: 30
+        adjust_top: 2
+        adjust_bottom: 3
+    tall_title:
+        font_name: big_noodle_titling
+        font_size: 20
+        
+#slide_player:
+    #init_done: welcome_slide
+
+info_lights:    
+    player_1:
+        light: l_led49 #led_player1
+    player_2:
+        light: l_led48 #led_player2
+    player_3:
+        light: l_led47 #led_player3
+    player_4:
+        light: l_led46 #led_player4
+    tilt:
+        light: l_led45 #led_tilt
+    game_over:
+        light: l_led54 #led_game_over
+    #match_00:
+        #light: l_led53 #led_match
+    #match_10:
+        #light: l_led53 #led_match
+    #match_20:
+        #light: l_led53 #led_match
+    #match_30:
+        #light: l_led53 #led_match
+    #match_40:
+        #light: l_led53 #led_match
+    #match_50:
+        #light: l_led53 #led_match
+    #match_60:
+        #light: l_led53 #led_match
+    #match_70:
+        #light: l_led53 #led_match
+    #match_80:
+        #light: l_led53 #led_match
+    #match_90:
+        #light: l_led53 #led_match        
+
+
+#shows:
+#- attract_light_show.yaml
+
+##! mode: test_mode
+#config_version=5
+#show_player:
+    #mode_attract_started: attract_display_loop
+    #mode_attract_started: attract_light_show
+      
+playfields:
+    playfield:
+        tags: default
+        default_source_device: bd_plunger #bd_trough  # use None in steps before 8
+
+#coil_player:
+    #s_right_inlane:
+        #bell: c_bell
+        #activation_switch: s_right_inlane
+
+machine:
+    balls_installed: 3
+    min_balls: 1
+ 
+ball_devices:
+    bd_trough:
+        ball_switches: s_trough_1, s_trough_2, s_trough_3, s_trough_jam
+        eject_coil: c_trough_eject
+        confirm_eject_type: target
+        tags: trough, home, drain
+        jam_switch: s_trough_jam
+        eject_coil_jam_pulse: 15ms
+        eject_targets: bd_plunger
+    bd_plunger:
+        ball_switches: s_shooter_lane_eject
+        eject_coil: c_shooter_launch
+        mechanical_eject: true
+        eject_timeouts: 5s
+    bd_left_saucer:
+        ball_switches: s_left_saucer
+        eject_coil: c_saucer_left
+        eject_timeouts: 750ms
+    bd_right_saucer:
+        ball_switches: s_right_saucer
+        eject_coil: c_saucer_right
+        eject_timeouts: 750ms                
+flippers:
+    left_flipper:
+        main_coil: c_flipper_left_main
+        hold_coil: c_flipper_left_hold
+        activation_switch: s_left_flipper
+        label: left main flipper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    right_flipper:
+        main_coil: c_flipper_right_main
+        hold_coil: c_flipper_right_hold
+        activation_switch: s_right_flipper
+        label: right main flipper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    right_flipper_upper:
+        main_coil: c_flipper_upper_right_main
+        hold_coil: c_flipper_upper_right_hold
+        activation_switch: s_right_flipper_upper
+        label: right upper flipper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+
+autofire_coils:
+    left_slingshot:
+        coil: c_slingshot_left
+        switch: s_left_sling_shot
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    right_slingshot:
+        coil: c_slingshot_right
+        switch: s_right_sling_shot
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    pop_bmp_left:
+        coil: c_pop_bmp_left
+        switch: s_left_pop_bumper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    pop_bmp_right:
+        coil: c_pop_bmp_right
+        switch: s_right_pop_bumper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+    pop_bmp_bottom:
+        coil: c_pop_bmp_bottom
+        switch: s_lower_pop_bumper
+        #enable_events: #machine_reset_phase_3 #temp, normally enabled when ball is in trough.
+        
+drop_targets:
+    left_1:
+        switch: s_left_drop_target_1
+    left_2:
+        switch: s_left_drop_target_2
+    left_3:
+        switch: s_left_drop_target_3
+    right_1:
+        switch: s_right_drop_target_1
+    right_2:
+        switch: s_right_drop_target_2
+    right_3:
+        switch: s_right_drop_target_3
+drop_target_banks:
+    left_bank:
+        drop_targets: left_1, left_2, left_3
+        reset_coils: c_drop_target_left
+        reset_on_complete: 1s
+    right_bank:
+        drop_targets: right_1, right_2, right_3
+        reset_coils: c_drop_target_top
+        reset_on_complete: 1s
+spinners:
+  arzach_spinner:
+    switch: s_spinner
+    active_ms: 200
+    idle_ms: 2000    
+#ball_holds:
+    #kicker_mode:
+        #balls_to_hold: 1
+        #hold_devices: bd_left_saucer
+        #release_one_events: medium_metal_complete
+        
+sound_system:
+    tracks:
+        voice:
+            volume: 1
+            priority: 2
+            simultaneous_sounds: 1
+            preload: true
+        sfx:
+            volume: 1
+            priority: 1
+            preload: true
+            simultaneous_sounds: 8
+        music:
+            volume: 0.5
+            simultaneous_sounds: 1
+    buffer: 1024  # previous value was 512
+    frequency: 44100
+    channels: 2
+    master_volume: 1
+    enabled: true
+    
+assets:
+    sounds:
+        default:
+            track: sfx
+    music:
+        track: music
+        mode_end_action: stop
+    sfx:
+        track: sfx
+        load: preload
+    voice:
+        track: voice
+        load: preload
+        
+images:
+    bonus_image_1:
+        width: 1366
+        height: 768
+        file: bonus_image_1.jpg
+    bonus_image_2:
+        width: 1366
+        height: 768
+        file: bonus_image_2.jpg
+    bonus_image_3:
+        width: 1366
+        height: 768
+        file: bonus_image_3.jpg
+    bonus_image_4:
+        width: 1366
+        height: 768
+        file: bonus_image_4.jpg
+    bonus_image_5:
+        width: 1366
+        height: 768
+        file: bonus_image_5.jpg
+    bonus_image_6:
+        width: 1366
+        height: 768
+        file: bonus_image_6.jpg
+    bonus_image_slipstream:
+        width: 1366
+        height: 768
+        file: bonus_slipstream.jpg
+    bonus_image_7: #Jerry with bag - total bonus
+        width: 1366
+        height: 768
+        file: bonus_image_7.jpg
+    bonus_image_8: #Extra_ball bonus
+        width: 1366
+        height: 768
+        file: bonus_image_8.jpg
+    
+        
+videos:
+    star_girl_video:
+        width: 1366
+        height: 768
+        file: star_girl_comp.mp4
+    bkgnd_loop_1_video:
+        width: 1366
+        height: 768
+        file: bkgnd_loop_1.mp4
+    arzach_flyby_video:
+        width: 1366
+        height: 768
+        file: arzach_flyby_comp.mp4
+    edena_run_video:
+        width: 1366
+        height: 768
+        file: edena_run_comp.mp4
+    defend_planet_1_video:
+        width: 1366
+        height: 768
+        file: Defend_Planet_1.mp4
+    castle_1_video:
+        width: 1366
+        height: 768
+        file: castle_1.mp4
+    ball_save_hurry_up_video:
+        width: 1366
+        height: 768
+        file: ball_save_hurry_up.mp4
+    ball_saved_video:
+        width: 1366
+        height: 768
+        file: ball_saved.mp4
+    energy_level_1_video:
+        width: 1366
+        height: 768
+        file: energy_level_1.mp4
+    2x_multiplier_video:
+        width: 1366
+        height: 768
+        file: 2x_multiplier.mp4
+    3x_multiplier_video:
+        width: 1366
+        height: 768
+        file: 3x_multiplier.mp4
+    multiball_video:
+        width: 1366
+        height: 768
+        file: multiball.mp4
+    multiball_ready_video:
+        width: 1366
+        height: 768
+        file: multiball_ready.mp4
+    multiball_2_video:
+        width: 1366
+        height: 768
+        file: multiball_2.mp4
+    keep_1_video:
+        width: 1366
+        height: 768
+        file: keep_1.mp4
+    keep_2_video:
+        width: 1366
+        height: 768
+        file: keep_2.mp4
+    keep_3_video:
+        width: 1366
+        height: 768
+        file: keep_3.mp4
+    keep_4_video:
+        width: 1366
+        height: 768
+        file: keep_4.mp4
+    keep_5_video:
+        width: 1366
+        height: 768
+        file: keep_5.mp4
+    keep_6_video:
+        width: 1366
+        height: 768
+        file: keep_6.mp4
+    keep_7_video:
+        width: 1366
+        height: 768
+        file: keep_7.mp4
+    outer_orbit_1_video:
+        width: 1366
+        height: 768
+        file: outer_orbit_1.mp4
+    inner_orbit_1_video:
+        width: 1366
+        height: 768
+        file: inner_orbit_1.mp4
+    interstellar_orbit_video:
+        width: 1366
+        height: 768
+        file: interst.mp4
+    slipstream_orbit_video:
+        width: 1366
+        height: 768
+        file: slipstream.mp4
+        
+player_vars:
+    lit_lanes_multiplier:
+        value_type: int
+        initial_value: 1
+    pf_sublevel:
+        value_type: int
+        initial_value: 0
+    mission_selected:
+        value_type: int
+        initial_value: 0
+    #extra_ball_progress:  # to track extra ball progress between turns.
+        #value_type: int
+        #initial_value: 0
