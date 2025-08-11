@@ -1,0 +1,317 @@
+#config_version=5
+##! mode: arzach_awards
+# in modes/arzach_awards
+
+mode:
+  start_events: start_mode_arzach_awards
+  stop_events: stop_mode_arzach_awards
+  priority: 175
+
+# The Keep Achievement 
+achievements:
+  arzach_the_keep_stage_1:
+    show_tokens:
+      led: led_1 #led_level_1 #or should it be led_level_1?led_multi_ball?
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show #name of the show
+    events_when_started: shoot_the_keep_stage_1    # starts arzach_multiball mode. Posts an event called award_arzach_multiball when this achievement is started. We’ll use this as the start event for the Arzach Multiball mode.
+    start_events: initialize_the_keep
+    enable_events: initialize_the_keep, reset_the_keep  #Enables this achievement when either of the events initialize_the_keep or reset_the_keep is posted. Prior to that, this achievement will be disabled.
+    complete_events: stage_1_complete #Watches for the event award_thing_multiball, and when it sees it, it marks this achievement as complete. Notice this is the same event that this achievement posts when it starts. In other words, we’ve configured it so the achievement is complete as soon as it starts! This is by design, because the rules state that once an achievement is awarded, the chair can be relit immediately, and it’s possible to receive the next award even while the mode from the prior award is still running.
+    reset_events: reset_the_keep_stage_1 #Watches for an event called reset_the_keep that will reset this achievement back to its initial (disabled) state.
+    events_when_completed: stage_1_achieved
+    
+    #This achievements configuration takes care of the following rules:
+    #Lights for incomplete awards are off.
+    #Complete awards are on solid.
+    #The currently selected award’s light is flashing.
+    
+  arzach_the_keep_stage_2:
+    show_tokens:
+      led: led_2
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show
+    events_when_started: shoot_the_keep_stage_2
+    start_events: stage_1_achieved, arzach_the_keep_stage_1_completed
+    enable_events: stage_1_achieved, reset_the_keep
+    complete_events: stage_2_complete
+    reset_events: reset_the_keep_stage_2
+    events_when_completed: stage_2_achieved
+  arzach_the_keep_stage_3:
+    show_tokens:
+      led: led_3
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show
+    events_when_started: shoot_the_keep_stage_3
+    start_events: stage_2_achieved, arzach_the_keep_stage_2_completed
+    enable_events: stage_2_achieved, reset_the_keep
+    complete_events: stage_3_complete
+    reset_events: reset_the_keep_stage_3
+    events_when_completed: stage_3_achieved
+  arzach_the_keep_stage_4:
+    show_tokens:
+      led: led_4
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show
+    events_when_started: shoot_the_keep_stage_4
+    start_events: stage_3_achieved, arzach_the_keep_stage_3_completed
+    enable_events: stage_3_achieved, reset_the_keep
+    complete_events: stage_4_complete
+    reset_events: reset_the_keep_stage_4
+    events_when_completed: stage_4_achieved
+  arzach_the_keep_stage_5:
+    show_tokens:
+      led: led_5
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show
+    events_when_started: shoot_the_keep_stage_5
+    start_events: stage_4_achieved, arzach_the_keep_stage_4_completed
+    enable_events: stage_4_achieved, reset_the_keep
+    complete_events: stage_5_complete
+    reset_events: reset_the_keep_stage_5
+    events_when_completed: stage_5_achieved
+  arzach_the_keep_stage_6:
+    show_tokens:
+      led: led_6
+    show_when_selected: flash_green_light_show
+    show_when_completed: stage_light_show
+    events_when_started: shoot_the_keep_stage_6
+    start_events: stage_5_achieved, arzach_the_keep_stage_5_completed
+    enable_events: stage_5_achieved, reset_the_keep
+    complete_events: stage_6_complete
+    reset_events: reset_the_keep_stage_6
+    events_when_completed: stage_6_achieved
+  arzach_the_keep_level_1:
+    show_tokens:
+      led: led_level_1
+    show_when_selected: flash_green_light_show
+    show_when_completed: white_light_show
+    events_when_started: shoot_the_keep_level_1
+    start_events: stage_6_achieved, arzach_the_keep_stage_6_completed
+    enable_events: stage_6_achieved, reset_the_keep
+    complete_events: level_1_complete
+    reset_events: reset_the_keep_level_1    
+# Extra Ball Achievement    
+  arzach_eb_lvl_1:
+    show_tokens:
+      led: led_energy_lvl_1
+    show_when_selected: flash_green_light_show
+    show_when_completed: blue_light_show
+    events_when_started: eb_lvl_l_started
+    start_events: initialize_extra_ball
+    enable_events: initialize_extra_ball, reset_extra_ball
+    complete_events: eb_lvl_1_complete
+    reset_events: reset_eb_lvl_1
+    events_when_completed: eb_lvl_1_achieved
+  arzach_eb_lvl_2:
+    show_tokens:
+      led: led_energy_lvl_2
+    show_when_selected: flash_green_light_show
+    show_when_completed: red_light_show
+    events_when_started: eb_lvl_2_started
+    start_events: eb_lvl_1_achieved
+    enable_events: initialize_extra_ball, reset_extra_ball
+    complete_events: eb_lvl_2_complete
+    reset_events: reset_eb_lvl_2
+    events_when_completed: eb_lvl_2_achieved
+  arzach_eb_lvl_3:
+    show_tokens:
+      led: led_extra_ball
+    show_when_selected: flash_green_light_show
+    show_when_completed: yellow_light_show
+    events_when_started: eb_lvl_3_started
+    start_events: eb_lvl_2_achieved
+    enable_events: initialize_extra_ball, reset_extra_ball
+    complete_events: eb_lvl_3_complete
+    reset_events: reset_eb_lvl_3
+    events_when_completed: eb_lvl_3_achieved
+  arzach_eb_lvl_4:
+    show_tokens:
+      led: extra_ball_lane
+    show_when_selected: flash_green_light_show
+    show_when_completed: blue_light_show
+    events_when_started: eb_lvl_4_started
+    start_events: eb_lvl_3_achieved
+    enable_events: initialize_extra_ball, reset_extra_ball
+    complete_events: eb_awarded_complete
+    reset_events: reset_eb_lvl_2
+    events_when_completed: eb_lvl_4_achieved    
+# Outer Orbit Achievement    
+  arzach_outer_orbit:
+    show_tokens:
+      led: led_orbit_outer
+    show_when_selected: flash_green_light_show
+    show_when_completed: blue_light_show
+    events_when_started: orbit_outer_started
+    start_events: initialize_outer_orbit
+    enable_events: initialize_outer_orbit, reset_orbit
+    complete_events: outer_orbit_complete
+    reset_events: reset_outer_orbit
+    events_when_completed: outer_orbit_achieved
+  arzach_inner_orbit:
+    show_tokens:
+      led: led_orbit_inner
+    show_when_selected: flash_green_light_show
+    show_when_completed: blue_light_show
+    events_when_started: orbit_inner_started
+    start_events: initialize_inner_orbit
+    enable_events: initialize_inner_orbit, reset_orbit
+    complete_events: inner_orbit_complete
+    reset_events: reset_inner_orbit
+    events_when_completed: inner_orbit_achieved
+  arzach_interstellar_orbit:
+    show_tokens:
+      led: led_right_interstellar
+    show_when_selected: flash_green_light_show
+    show_when_completed: blue_light_show
+    events_when_started: orbit_interstellar_started
+    start_events: initialize_interstellar_orbit
+    enable_events: initialize_interstellar_orbit, reset_orbit
+    complete_events: interstellar_orbit_complete
+    reset_events: reset_interstellar_orbit
+    events_when_completed: interstellar_orbit_achieved
+  arzach_orbit_all_complete:
+    show_tokens:
+      led: led_orbit
+    show_when_selected: flash_green_light_show
+    show_when_completed: flash_orange_light_show
+    events_when_started: orbit_all_complete_started
+    start_events: initialize_interstellar_orbit
+    enable_events: initialize_interstellar_orbit, reset_orbit
+    complete_events: all_orbits_complete
+    reset_events: reset_all_orbit
+    events_when_completed: all_orbits_achieved
+# Castle Wall Achievement - Left Drop Bank    
+  arzach_left_drop_bank:
+    show_tokens:
+      led: castle_wall
+    show_when_selected: flash_green_light_show
+    #show_when_completed: blue_light_show
+    events_when_started: left_bank_started
+    start_events: initialize_left_bank, castle_wall_bank_down
+    enable_events: initialize_left_bank, castle_wall_bank_down
+    complete_events: castle_wall_bank_down # event to signal achievement done
+    reset_events: reset_left_bank, all_drop_banks_complete
+    events_when_completed: left_bank_achieved
+# Planetary Defense Achievement - Right Drop Bank    
+  arzach_right_drop_bank:
+    show_tokens:
+      led: planetary_defense
+    show_when_selected: flash_green_light_show
+    #show_when_completed: blue_light_show
+    events_when_started: right_bank_started
+    start_events: initialize_right_bank, planetary_defense_bank_down
+    enable_events: initialize_right_bank, planetary_defense_bank_down
+    complete_events: planetary_defense_bank_down # event to signal achievement done
+    reset_events: reset_right_bank, all_drop_banks_complete
+    events_when_completed: right_bank_achieved
+
+    
+achievement_groups:
+  arzach_keep_awards:
+    achievements:
+      - arzach_the_keep_stage_1
+      - arzach_the_keep_stage_2
+      - arzach_the_keep_stage_3
+      - arzach_the_keep_stage_4
+      - arzach_the_keep_stage_5
+      - arzach_the_keep_stage_6
+      - arzach_the_keep_level_1
+      #- arzach_multiball
+      #- quick_multiball
+      #- arzach_lite_extra_ball
+      #- arzach_outer_lanes
+      #- arzach_castle_wall
+      #- arzach_planetary_defense
+    #show_tokens:
+      #led: led_the_keep #These are the show tokens for the group itself. In this case they’re the two lights on the electric chair, since those lights turn on and off to indicate whether the chair or swamp can be shot to award the currently selected item.
+    auto_select: false #This is used to make sure that one achievement is selected at all times. If the currently selected achievement is completed, the achievement group will notice that there is no currently selected achievement and it will pick one from random from the remaining achievements (those that are “enabled”).
+    events_when_all_completed: level_1_complete, select_omni_mode #Posts an event called select_tour_mansion once all 12 achievements in this group in complete. We’ll use this later to light the “tour mansion” award.
+    enable_while_no_achievement_started: true #In our case, we do not want to automatically enable the achievement group when no achievement is started, because the rules for Addams Family say that the player has to shoot the center ramp or right inlane to light the chair (which is enabling this achievement group).
+    show_when_enabled: the_keep_light_show #--- maybe a light chase show!!!!!! #This plays the show called “on” when the achievement group is in the enabled state. This will have the effect of turning on the red and yellow chair lights (from the show_tokens: section) when the achievement group is enabled and the selected item can be awarded.
+    #select_random_achievement_events: sw_jet #In Addams Family, each pop bumper hit changes the currently selected mansion award. To make this happen, we added a tag called “jet” to the five pop bumper switches. (That will post an event called sw_jet any time one of these switches is hit. Then we add that event name here which will cause this achievement group to change the currently selected award.
+    #allow_selection_change_while_disabled: false #The pop bumper hits to change the current selection happens regardless of whether the group is enabled (e.g. the chair is lit) or not, so we use this setting to allow that selection change to happen at any time.
+    disable_while_achievement_started: false
+    start_selected_events: left_saucer #the_keep #balldevice_electric_chair_ball_enter, balldevice_swamp_kickout_ball_enter, award_mansion_from_bear
+    #A shot to either the electric chair or the swamp kickout will award the selected achievement.
+    enable_events: initialize_the_keep #base #When an event called light_chair is posted, this achievement group will be enabled (which will turn on the chair lights and allow the selected achievement to be started via the start_selected_events:.
+    disable_events: unlight_the_keep #When an event called light_chair is posted, this achievement group will be disabled. The chair lights will turn off, and the start_selected_events: will not cause the current selected achievement to start.
+    
+    #This step takes care of:
+    #Hitting any pop bumper will change the currently selected award to another random from the awards that are not yet complete.
+    #The selected award is awarded / collected when the electric chair is lit (yellow and red lights on the chair toy) and either the electric chair or swamp shot is hit.
+    
+  arzach_eb_awards:
+    achievements:
+      - arzach_eb_lvl_1
+      - arzach_eb_lvl_2
+      - arzach_eb_lvl_3
+      - arzach_eb_lvl_4
+    show_tokens:
+      led: extra_ball_lane
+    auto_select: false
+    events_when_all_completed: select_eb_mode #Posts an event called select_tour_mansion once all 12 achievements in this group in complete. We’ll use this later to light the “tour mansion” award.
+    enable_while_no_achievement_started: true #In our case, we do not want to automatically enable the achievement group when no achievement is started, because the rules for Addams Family say that the player has to shoot the center ramp or right inlane to light the chair (which is enabling this achievement group).
+    #show_when_enabled: flash_green_light_show
+    disable_while_achievement_started: false
+    start_selected_events: left_saucer
+    enable_events: base
+    disable_events: unlight_extra_ball
+    
+  arzach_orbit_awards:
+    achievements:
+      - arzach_outer_orbit
+      - arzach_inner_orbit
+      - arzach_interstellar_orbit
+    #show_tokens:
+      #led: led_orbit
+    auto_select: false
+    events_when_all_completed: all_orbits_complete #Posts an event called select_tour_mansion once all 12 achievements in this group in complete. We’ll use this later to light the “tour mansion” award.
+    enable_while_no_achievement_started: true #In our case, we do not want to automatically enable the achievement group when no achievement is started, because the rules for Addams Family say that the player has to shoot the center ramp or right inlane to light the chair (which is enabling this achievement group).
+    show_when_enabled: orbit_light_show
+    disable_while_achievement_started: false
+    start_selected_events: left_saucer
+    enable_events: base
+    disable_events: unlight_orbit
+    
+  arzach_drop_bank_awards:
+    achievements:
+      - arzach_left_drop_bank
+      - arzach_right_drop_bank
+    #show_tokens:
+      #led: led_orbit
+    auto_select: false
+    events_when_all_completed: all_drop_banks_complete #Posts an event called select_tour_mansion once all 12 achievements in this group in complete. We’ll use this later to light the “tour mansion” award.
+    enable_while_no_achievement_started: true #In our case, we do not want to automatically enable the achievement group when no achievement is started, because the rules for Addams Family say that the player has to shoot the center ramp or right inlane to light the chair (which is enabling this achievement group).
+    show_when_enabled: drop_bank_light_show
+    disable_while_achievement_started: false
+    start_selected_events: left_saucer
+    enable_events: base
+    disable_events: unlight_drop_banks
+    
+counters:
+  drop_banks_complete_count:
+    count_events: all_drop_banks_complete #count both drop bank shots complete
+    events_when_hit: drop_banks_done
+    starting_count: 1
+    direction: down
+    events_when_complete: drop_bank_multi_ball_ready
+    reset_on_complete: false
+    disable_on_complete: false
+    count_complete_value: 0
+    persist_state: false
+    enable_events:
+      - ball_started
+      #- timer_timer_down_mb_running_complete
+    disable_events:
+      - timer_timer_down_mb_begin_complete
+      - multiball_played_per_round_done
+    
+        
+#show_player:
+  #all_orbits_achieved:
+    #flash_orange_light_show:
+      #loops: 6
+      #speed: 5
+      #show_tokens:
+        #lights: led_orbit

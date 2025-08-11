@@ -1,0 +1,21 @@
+#show_version=5
+##! show: the_keep_light_show
+
+#Step 1
+- duration: 1
+  lights:
+    led_keep_enter: blue-f250ms
+    led_left_saucer: off-f250ms
+    led_escape_arrow: off-f250ms
+#Step 2
+- duration: 1
+  lights:
+    led_keep_enter: off-f250ms
+    led_left_saucer: blue-f250ms
+    led_escape_arrow: off-f250ms
+#Step 3
+- duration: 1
+  lights:
+    led_keep_enter: off-f250ms
+    led_left_saucer: off-f250ms
+    led_escape_arrow: blue-f250ms

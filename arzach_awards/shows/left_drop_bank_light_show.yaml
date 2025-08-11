@@ -1,0 +1,21 @@
+#show_version=5
+##! show: left_drop_bank_light_show
+
+#Step 1
+- duration: 1
+  lights:
+    led_left_lwr_drop: purple-f250ms
+    led_left_mdl_drop: off-f250ms
+    led_left_upr_drop: off-f250ms
+#Step 2
+- duration: 1
+  lights:
+    led_left_lwr_drop: off-f250ms
+    led_left_mdl_drop: purple-f250ms
+    led_left_upr_drop: off-f250ms
+#Step 3
+- duration: 1
+  lights:
+    led_left_lwr_drop: off-f250ms
+    led_orbit_inner: off-f250ms
+    led_left_upr_drop: purple-f250ms
